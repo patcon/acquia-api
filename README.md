@@ -24,7 +24,10 @@ require 'acapi'
 cert = File.read('./cloudapi.acquia.com.pem')
 
 conn = AcquiaCloudAPI::Connection.new('username', 'password', cert)
-conn.get('/v1/sites.json')
+res = conn.get('/v1/sites/sitename.json')
+
+human_sitename = res.title # "Full subscription title"
+production = !!res.production_mode # true
 ```
 
 ## Contributing

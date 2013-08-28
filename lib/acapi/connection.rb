@@ -1,4 +1,5 @@
 require 'faraday'
+require 'faraday_middleware'
 
 module ACAPI
   class Connection
@@ -9,6 +10,8 @@ module ACAPI
       @connection ||= Faraday.new do |builder|
         builder.request  :retry
         builder.response :logger
+        builder.response :mashify
+        builder.response :json
         builder.adapter  :net_http
       end
     end
