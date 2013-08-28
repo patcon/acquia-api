@@ -5,6 +5,7 @@ require 'acapi/client/databases'
 require 'acapi/client/deployments'
 require 'acapi/client/domains'
 require 'acapi/client/files'
+require 'acapi/client/keys'
 require 'acapi/client/sites'
 require 'acapi/client/tasks'
 
@@ -14,6 +15,7 @@ module AcquiaCloudApi
     include AcquiaCloudApi::Client::Deployments
     include AcquiaCloudApi::Client::Domains
     include AcquiaCloudApi::Client::Files
+    include AcquiaCloudApi::Client::Keys
     include AcquiaCloudApi::Client::Sites
     include AcquiaCloudApi::Client::Tasks
 
@@ -31,6 +33,10 @@ module AcquiaCloudApi
       request :post, uri, params, data
     end
 
+    def delete(uri, params = {})
+      request :delete, uri, params
+    end
+
     private
 
     def request(method, uri, params = {}, data = {})
@@ -41,6 +47,7 @@ module AcquiaCloudApi
         :url => "#{Default::API_ENDPOINT}/#{uri}.json",
         :user => @username,
         :password => @password,
+        :payload => data,
         :ssl_client_cert => cert,
         :headers => {
           :params => params
