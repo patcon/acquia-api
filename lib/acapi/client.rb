@@ -1,3 +1,4 @@
+require 'json'
 require 'rest_client'
 require 'acapi/default'
 require 'acapi/client/databases'
@@ -35,8 +36,9 @@ module AcquiaCloudApi
 
       req = RestClient::Request.new(
         :method => method,
-        :url    => "#{Default::API_ENDPOINT}/#{uri}.json",
-        :verify_ssl => OpenSSL::SSL::VERIFY_PEER,
+        :url => "#{Default::API_ENDPOINT}/#{uri}.json",
+        :user => @username,
+        :password => @password,
         :ssl_client_cert => cert,
         :headers => {
           :params => params
@@ -46,7 +48,7 @@ module AcquiaCloudApi
       res = req.execute
       @last_response = res.code
 
-      res.data
+      JSON.parse(res)
     end
   end
 end
