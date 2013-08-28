@@ -25,6 +25,15 @@ module AcquiaCloudApi
       alias :purge_varnish :purge_varnish_cache
       alias :purge_cache   :purge_varnish_cache
 
+      def migrate_domains(domains, from_env, to_env)
+        domains = domains.split if domains.is_a? String
+
+        params = {}
+        data = {:domains => domains}.to_json
+
+        post "sites/#{@site_name}/domain-move/#{from_env}/#{to_env}", params, data
+      end
+
     end
   end
 end
