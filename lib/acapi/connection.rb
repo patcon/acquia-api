@@ -4,7 +4,7 @@ require 'faraday_middleware'
 module ACAPI
   class Connection
 
-    attr_reader :username, :password, :cert
+    attr_reader :shortname, :username, :password, :cert
 
     def self.connection
       @connection ||= Faraday.new do |builder|
@@ -16,9 +16,10 @@ module ACAPI
       end
     end
 
-    def initialize(username, password, cert)
+    def initialize(shortname, username, password, cert)
+      @shortname = shortname
       @cert = cert
-      @uri = URI.parse('https://cloudapi.acquia.com')
+      @uri = URI.parse('https://cloudapi.acquia.com/v1')
 
       connection.basic_auth username, password
     end
@@ -31,8 +32,18 @@ module ACAPI
       end
     end
 
-    def get(url)
-      res = connection.get(url)
+    def get(url, *args)
+      res = connection.get(url, *args)
+      res.body
+    end
+
+    def post(url, body = nil, *args)
+      res = connection.post(url, body, *args)
+      res.body
+    end
+
+    def task_state(task_id = nil)
+      res = connection.get "/sites/#{@shortname}/tasks/#{task_id}"
       res.body
     end
 
