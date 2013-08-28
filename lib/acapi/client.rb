@@ -5,6 +5,7 @@ require 'acapi/client/databases'
 require 'acapi/client/deployments'
 require 'acapi/client/domains'
 require 'acapi/client/files'
+require 'acapi/client/sites'
 require 'acapi/client/tasks'
 
 module AcquiaCloudApi
@@ -13,6 +14,7 @@ module AcquiaCloudApi
     include AcquiaCloudApi::Client::Deployments
     include AcquiaCloudApi::Client::Domains
     include AcquiaCloudApi::Client::Files
+    include AcquiaCloudApi::Client::Sites
     include AcquiaCloudApi::Client::Tasks
 
     def initialize(options = {})
