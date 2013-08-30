@@ -3,12 +3,12 @@ module AcquiaCloudApi
     module Tasks
 
       def tasks
-        get "sites/#{@site_name}/tasks"
+        get "sites/#{site_name}/tasks"
       end
       alias :list_tasks :tasks
 
       def task(task_id)
-        get "sites/#{@site_name}/tasks/#{task_id}"
+        get "sites/#{site_name}/tasks/#{task_id}"
       end
 
       def task_status(task_id)
@@ -36,7 +36,6 @@ module AcquiaCloudApi
       end
 
       def poll_all
-
       end
 
     end

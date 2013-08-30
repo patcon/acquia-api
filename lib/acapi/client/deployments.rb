@@ -6,7 +6,7 @@ module AcquiaCloudApi
         params = {
           :path => git_ref
         }
-        post "sites/#{@site_name}/envs/#{to_env}/code-deploy", params
+        post "sites/#{site_name}/envs/#{to_env}/code-deploy", params
       end
       alias :deploy!     :deploy_reference!
       alias :deploy_ref! :deploy_reference!

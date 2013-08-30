@@ -6,6 +6,7 @@ require 'acapi/client/deployments'
 require 'acapi/client/domains'
 require 'acapi/client/files'
 require 'acapi/client/keys'
+require 'acapi/client/servers'
 require 'acapi/client/sites'
 require 'acapi/client/tasks'
 
@@ -16,13 +17,14 @@ module AcquiaCloudApi
     include AcquiaCloudApi::Client::Domains
     include AcquiaCloudApi::Client::Files
     include AcquiaCloudApi::Client::Keys
+    include AcquiaCloudApi::Client::Servers
     include AcquiaCloudApi::Client::Sites
     include AcquiaCloudApi::Client::Tasks
 
     def initialize(options = {})
+      @options = options
       @site_name = options[:site_name]
-      @username = options[:username]
-      @password = options[:password]
+      @last_response = false
     end
 
     def get(uri, params = {})
@@ -37,6 +39,10 @@ module AcquiaCloudApi
       request :delete, uri, params
     end
 
+    def site_name
+      @site_name ||= Client.new(@options).sites.first.split(':').last
+    end
+
     private
 
     def request(method, uri, params = {}, data = {})
@@ -45,8 +51,8 @@ module AcquiaCloudApi
       req = RestClient::Request.new(
         :method => method,
         :url => "#{Default::API_ENDPOINT}/#{uri}.json",
-        :user => @username,
-        :password => @password,
+        :user => @options[:username],
+        :password => @options[:password],
         :payload => data,
         :ssl_client_cert => cert,
         :headers => {
@@ -55,9 +61,10 @@ module AcquiaCloudApi
       )
 
       res = req.execute
-      @last_response = res.code
+      @last_response = res
 
       JSON.parse(res)
     end
+
   end
 end
