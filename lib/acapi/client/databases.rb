@@ -30,7 +30,7 @@ module AcquiaCloudApi
         post "sites/#{site_name}/dbs", params, data
       end
 
-      def delete_database(db_name, backup = true)
+      def delete_database!(db_name, backup = true)
         params = {:backup => backup ? 1 : 0}
 
         delete "sites/#{site_name}/dbs/#{db_name}", params
