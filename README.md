@@ -26,7 +26,7 @@ do this before running through a similar process on `prod` itself.
 require 'acapi'
 
 # Site/subscription will be auto-detected from credentials.
-client = AcquiaCloudAPI::Client.new(
+client = AcquiaCloudApi::Client.new(
   :username => '39513c57-364a-3d2f-4e6a-654d5a793535',
   :password => 'Vah6ewCG0zn0IiQ8ylLyv8rRFZ2vZyAysOSguHkk1mfl9GQuEK3x'
 )
