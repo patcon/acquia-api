@@ -28,7 +28,7 @@ module AcquiaCloudApi
       end
 
       def copy_database!(db_name, from_env, to_env)
-        post "sites/#{site_name}/dbs/#{name}/db-copy/#{from_env}/#{to_env}"
+        post "sites/#{site_name}/dbs/#{db_name}/db-copy/#{from_env}/#{to_env}"
       end
 
       def create_database(db_name)
