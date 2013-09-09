@@ -35,15 +35,23 @@ client.add_domain 'staging.example.com', :test
 client.copy_files! :prod, :test
 
 # Collect response data from methods for later use.
-dbcopy_response = client.copy_database! 'my_database', :prod, :test
-deploy_response = client.deploy! 'release-34', :test
+responses = []
+responses << client.copy_database! 'my_database', :prod, :test
+responses << client.deploy! 'release-34', :test
 
-# Output status of deploy task for fun.
-puts client.task_status deploy_response['id']
+# Output status of tasks for fun.
+#
+# SAMPLE OUTPUT
+# code-push task status: done
+# db-migrate task status: done
+responses.each do |res|
+  puts "#{res['queue']} task status: #{client.task_status res['id']}"
+end
 
 # Wait for db copy and deploy tasks to complete.
-client.poll_task db_copy_response['id']
-client.poll_task deploy_response['id']
+responses.each do |res|
+  client.poll_task res['id']
+end
 ```
 
 ### Auto-polling methods
