@@ -41,7 +41,12 @@ module AcquiaCloudApi
         end
       end
 
-      def poll_all
+      def poll_all(tids, timeout = 120)
+        tids = tids.to_s.split unless tids.is_a? Array
+
+        tids.each do |tid|
+          poll_task(tid, timeout)
+        end
       end
 
     end
