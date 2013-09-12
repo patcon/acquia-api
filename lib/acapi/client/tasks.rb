@@ -1,6 +1,9 @@
+require 'acapi/helpers'
+
 module AcquiaCloudApi
   class Client
     module Tasks
+      include AcquiaCloudApi::Helpers
 
       def tasks
         get "sites/#{site_name}/tasks"
@@ -22,20 +25,28 @@ module AcquiaCloudApi
       end
       alias :task_done? :task_complete?
 
-      def poll_task(task_id)
+      def poll_task(task_id, timeout = 120)
         time = 0
-        delay = 4
-        max = 120
+
+        fib_i = 6
 
         until task_complete?(task_id)
-          sleep(delay)
-          time += delay
+          raise if time > timeout
 
-          raise if time > max
+          delay = nth_fibonacci(fib_i)
+          sleep(delay)
+
+          fib_i += 1
+          time += delay
         end
       end
 
-      def poll_all
+      def poll_all(tids, timeout = 120)
+        tids = tids.to_s.split unless tids.is_a? Array
+
+        tids.each do |tid|
+          poll_task(tid, timeout)
+        end
       end
 
     end
