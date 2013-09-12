@@ -28,15 +28,15 @@ module AcquiaCloudApi
       def poll_task(task_id, timeout = 120)
         time = 0
 
-        fib_n = 6
+        fib_i = 6
 
         until task_complete?(task_id)
           raise if time > timeout
 
-          delay = nth_fib(fib_n)
+          delay = nth_fibonacci(fib_i)
           sleep(delay)
 
-          fib_n += 1
+          fib_i += 1
           time += delay
         end
       end
